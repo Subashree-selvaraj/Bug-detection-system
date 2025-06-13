@@ -335,17 +335,10 @@ const BugDetail = () => {
             <h3 className="text-lg font-medium text-gray-900 mb-4">Change History</h3>
             <div className="flow-root">
               <ul className="-mb-8">
-                {bug.history?.filter(change => {
-                  // Only show changes where values actually changed
-                  return change.oldValue !== change.newValue && 
-                         // Don't show system changes
-                         change.changedBy !== 'System' &&
-                         // Don't show changes with invalid dates
-                         change.timestamp && !isNaN(new Date(change.timestamp).getTime());
-                }).map((change, index, filteredHistory) => (
+                {bug.history?.map((change, index) => (
                   <li key={index}>
                     <div className="relative pb-8">
-                      {index !== filteredHistory.length - 1 && (
+                      {index !== bug.history.length - 1 && (
                         <span className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
                       )}
                       <div className="relative flex space-x-3">
@@ -422,18 +415,7 @@ const BugDetail = () => {
                                 </span>
                               )}
                             </div>
-                            <div className="mt-1">
-                              Changed by <span className="font-medium">{change.changedBy}</span> on{' '}
-                              <span className="font-medium">
-                                {new Date(change.timestamp).toLocaleString(undefined, {
-                                  year: 'numeric',
-                                  month: 'short',
-                                  day: 'numeric',
-                                  hour: '2-digit',
-                                  minute: '2-digit'
-                                })}
-                              </span>
-                            </div>
+                            
                           </div>
                         </div>
                       </div>
