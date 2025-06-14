@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 const bugRoutes = require('./routes/bugs');
+const fs = require('fs');
 
 dotenv.config();
 
@@ -88,12 +89,21 @@ if (process.env.NODE_ENV === 'production') {
   const clientBuildPath = path.join(__dirname, '../client/build');
   console.log('Client build path:', clientBuildPath);
   
+  // Serve static files from the React app
   app.use(express.static(clientBuildPath));
 
-  app.get('*', (req, res) => {
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res, next) => {
     const indexPath = path.join(clientBuildPath, 'index.html');
     console.log('Serving index from:', indexPath);
-    res.sendFile(indexPath);
+    
+    // Check if the file exists before sending
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      console.error('Build files not found at:', indexPath);
+      res.status(404).send('Build files not found. Please check the deployment process.');
+    }
   });
 }
 
