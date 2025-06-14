@@ -1,9 +1,11 @@
 services:
   - type: web
-    name: bug-tracker-backend
+    name: bug-tracker
     env: node
     plan: free
-    buildCommand: cd server && npm install
+    buildCommand: |
+      cd server && npm install
+      cd ../client && npm install && npm run build
     startCommand: cd server && npm start
     envVars:
       - key: NODE_ENV
@@ -12,13 +14,5 @@ services:
         sync: false
       - key: PORT
         value: 5000
-
-  - type: web
-    name: bug-tracker-frontend
-    env: node
-    plan: free
-    buildCommand: cd client && npm install && npm run build
-    startCommand: cd client && npm run serve
-    envVars:
       - key: REACT_APP_API_URL
-        value: https://bug-tracker-backend.onrender.com 
+        value: https://bug-tracker.onrender.com 

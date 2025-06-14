@@ -12,7 +12,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://bug-tracker-frontend.onrender.com', 'http://localhost:3000']
+    ? ['https://bug-tracker.onrender.com', 'http://localhost:3000']
     : 'http://localhost:3000',
   credentials: true
 }));
