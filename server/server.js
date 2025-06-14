@@ -12,34 +12,29 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://bugtracker-vbr3.onrender.com', 'http://localhost:3000']
+    ? ['https://bug-tracker.onrender.com', 'http://localhost:3000']
     : 'http://localhost:3000',
   credentials: true
 }));
 app.use(express.json());
 
-// API routes
+// Routes
 app.use('/api/bugs', bugRoutes);
 
-// Test default API route
-app.get('/api', (req, res) => {
-  res.json({ message: 'API is running' });
-});
-
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/bug-tracker', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://subashree:subashreevjc@cluster0.w72rf.mongodb.net/bug-tracker?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 45000,
 })
-.then(() => console.log('✅ MongoDB Connected'))
+.then(() => console.log('MongoDB Connected'))
 .catch(err => {
-  console.error('❌ MongoDB Connection Error:', err);
-  process.exit(1);
+  console.error('MongoDB Connection Error:', err);
+  process.exit(1); // Exit if cannot connect to database
 });
 
-// Seed data if empty
+// Seed initial data if database is empty
 const Bug = require('./models/Bug');
 Bug.countDocuments().then(count => {
   if (count === 0) {
@@ -52,7 +47,7 @@ Bug.countDocuments().then(count => {
         project: 'Website',
         reporter: 'System',
         assignedTo: 'John Doe',
-        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
         estimatedTime: 4,
         tags: ['UI', 'Authentication']
       },
@@ -64,7 +59,7 @@ Bug.countDocuments().then(count => {
         project: 'Mobile App',
         reporter: 'System',
         assignedTo: 'Jane Smith',
-        dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+        dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
         estimatedTime: 8,
         tags: ['Performance', 'Mobile']
       },
@@ -76,28 +71,26 @@ Bug.countDocuments().then(count => {
         project: 'Website',
         reporter: 'System',
         assignedTo: 'Mike Johnson',
-        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
         estimatedTime: 2,
         tags: ['Search', 'Filter']
       }
     ];
     Bug.insertMany(sampleBugs)
-      .then(() => console.log('✅ Sample bugs added'))
-      .catch(err => console.error('❌ Error adding sample bugs:', err));
+      .then(() => console.log('Sample bugs added'))
+      .catch(err => console.error('Error adding sample bugs:', err));
   }
 });
 
-// Serve frontend in production
+// Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.resolve(__dirname, '..', 'client', 'build')));
+  // Set static folder
+  app.use(express.static(path.join(__dirname, '../client/build')));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
   });
 }
 
-// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 
