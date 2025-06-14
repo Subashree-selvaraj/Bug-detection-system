@@ -36,7 +36,10 @@ const Dashboard = () => {
         limit: 10
       }).toString();
 
-      const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/bugs?${queryParams}`);
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      console.log('Using API URL:', apiUrl);
+      
+      const response = await axios.get(`${apiUrl}/api/bugs?${queryParams}`);
       setBugs(response.data.bugs || []);
       setPagination(response.data.pagination || {
         page: 1,
@@ -58,7 +61,8 @@ const Dashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/bugs/stats`);
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await axios.get(`${apiUrl}/api/bugs/stats`);
       setStats(response.data || {
         statusStats: [],
         priorityStats: [],

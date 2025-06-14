@@ -85,10 +85,15 @@ Bug.countDocuments().then(count => {
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  const clientBuildPath = path.join(__dirname, '../client/build');
+  console.log('Client build path:', clientBuildPath);
+  
+  app.use(express.static(clientBuildPath));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+    const indexPath = path.join(clientBuildPath, 'index.html');
+    console.log('Serving index from:', indexPath);
+    res.sendFile(indexPath);
   });
 }
 
