@@ -89,6 +89,13 @@ if (process.env.NODE_ENV === 'production') {
   const clientBuildPath = path.join(__dirname, '../client/build');
   console.log('Client build path:', clientBuildPath);
   
+  // Check if build directory exists
+  if (!fs.existsSync(clientBuildPath)) {
+    console.error('Build directory not found at:', clientBuildPath);
+    console.log('Current directory:', __dirname);
+    console.log('Directory contents:', fs.readdirSync(path.join(__dirname, '..')));
+  }
+  
   // Serve static files from the React app
   app.use(express.static(clientBuildPath));
 

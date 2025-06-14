@@ -1,11 +1,11 @@
 {
   "name": "bug-tracker",
   "version": "1.0.0",
-  "description": "Bug Tracking System",
+  "private": true,
   "scripts": {
-    "start": "cd server && npm start",
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "install-all": "cd server && npm install && cd ../client && npm install"
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start"
   },
   "engines": {
     "node": ">=14.0.0"
