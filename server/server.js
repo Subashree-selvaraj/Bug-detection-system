@@ -4,7 +4,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 const bugRoutes = require('./routes/bugs');
-const fs = require('fs');
 
 dotenv.config();
 
@@ -13,7 +12,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://bug-tracker.onrender.com', 'http://localhost:3000']
+    ? ['https://bug-tracker-frontend.onrender.com', 'http://localhost:3000']
     : 'http://localhost:3000',
   credentials: true
 }));
@@ -86,31 +85,10 @@ Bug.countDocuments().then(count => {
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  const clientBuildPath = path.join(__dirname, '../client/build');
-  console.log('Client build path:', clientBuildPath);
-  
-  // Check if build directory exists
-  if (!fs.existsSync(clientBuildPath)) {
-    console.error('Build directory not found at:', clientBuildPath);
-    console.log('Current directory:', __dirname);
-    console.log('Directory contents:', fs.readdirSync(path.join(__dirname, '..')));
-  }
-  
-  // Serve static files from the React app
-  app.use(express.static(clientBuildPath));
+  app.use(express.static(path.join(__dirname, '../client/build')));
 
-  // Handle React routing, return all requests to React app
-  app.get('*', (req, res, next) => {
-    const indexPath = path.join(clientBuildPath, 'index.html');
-    console.log('Serving index from:', indexPath);
-    
-    // Check if the file exists before sending
-    if (fs.existsSync(indexPath)) {
-      res.sendFile(indexPath);
-    } else {
-      console.error('Build files not found at:', indexPath);
-      res.status(404).send('Build files not found. Please check the deployment process.');
-    }
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
   });
 }
 

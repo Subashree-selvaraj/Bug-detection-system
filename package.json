@@ -1,20 +1,12 @@
 {
   "name": "bug-tracker",
   "version": "1.0.0",
-  "private": true,
+  "description": "Bug Tracking System",
   "scripts": {
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
-    "build": "cd client && npm run build",
     "start": "cd server && npm start",
-    "postinstall": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "engines": {
     "node": ">=14.0.0"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^7.0.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3"
   }
 } 
