@@ -1,0 +1,12 @@
+{
+  "name": "bug-tracker",
+  "version": "1.0.0",
+  "description": "Bug Tracking System",
+  "scripts": {
+    "start": "cd server && npm start",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
