@@ -4,9 +4,9 @@ services:
     env: node
     plan: free
     buildCommand: |
-      cd server && npm install
-      cd ../client && npm install && npm run build
-      cd ../server && npm install express mongoose cors dotenv path
+      npm install
+      cd client && npm install && npm run build
+      cd ../server && npm install
     startCommand: cd server && npm start
     envVars:
       - key: NODE_ENV
@@ -16,4 +16,4 @@ services:
       - key: PORT
         value: 5000
       - key: REACT_APP_API_URL
-        value: https://bugtracker-vbr3.onrender.com 
+        value: https://bug-tracker.onrender.com 
