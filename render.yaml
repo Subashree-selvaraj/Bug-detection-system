@@ -2,6 +2,7 @@ services:
   - type: web
     name: bug-tracker-backend
     env: node
+    plan: free
     buildCommand: cd server && npm install
     startCommand: cd server && npm start
     envVars:
@@ -15,8 +16,9 @@ services:
   - type: web
     name: bug-tracker-frontend
     env: node
+    plan: free
     buildCommand: cd client && npm install && npm run build
-    startCommand: cd client && npm start
+    startCommand: cd client && npm run serve
     envVars:
       - key: REACT_APP_API_URL
         value: https://bug-tracker-backend.onrender.com 
