@@ -4,9 +4,16 @@
   "description": "Bug Tracking System",
   "scripts": {
     "start": "cd server && npm start",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "install-all": "cd server && npm install && cd ../client && npm install"
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3"
   }
 } 

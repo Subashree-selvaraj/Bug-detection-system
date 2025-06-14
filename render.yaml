@@ -6,6 +6,7 @@ services:
     buildCommand: |
       cd server && npm install
       cd ../client && npm install && npm run build
+      cd ../server && npm install express mongoose cors dotenv
     startCommand: cd server && npm start
     envVars:
       - key: NODE_ENV
