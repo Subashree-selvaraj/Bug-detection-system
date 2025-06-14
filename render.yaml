@@ -5,7 +5,7 @@ services:
     plan: free
     buildCommand: |
       npm install
-      cd client && npm install && npm run build
+      cd client && npm install && npm install react-scripts && npm run build
       cd ../server && npm install
     startCommand: cd server && npm start
     envVars:
