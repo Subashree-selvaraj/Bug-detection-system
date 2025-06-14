@@ -5,7 +5,8 @@
   "scripts": {
     "install-all": "npm install && cd client && npm install && cd ../server && npm install",
     "build": "cd client && npm run build",
-    "start": "cd server && npm start"
+    "start": "cd server && npm start",
+    "postinstall": "cd client && npm install && npm run build"
   },
   "engines": {
     "node": ">=14.0.0"
